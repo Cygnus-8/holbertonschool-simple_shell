@@ -10,14 +10,18 @@ char *read_line(void)
 	{
 		if (feof(stdin))
 		{
+			free(line);
 			exit(EXIT_SUCCESS); 
 		}
 		else 
 		{
 			perror("Can't Read your entry");
+			free(line);
 			exit(EXIT_FAILURE);
 		}
 	}
+	if (line == NULL)
+		return (NULL);
 
 	return (line); 
 }
@@ -25,8 +29,13 @@ char *read_line(void)
 char **parse_line(char *line)
 {
 	int bufsize = 32, position = 0;
-	char **tokens = malloc(sizeof(char *) * bufsize);
+	char **tokens;
 	char *token; 
+
+	if (line == NULL)
+		return(NULL);
+
+	tokens = malloc(sizeof(char *) * bufsize);
 
 	if(!tokens)
 	{
@@ -41,6 +50,9 @@ char **parse_line(char *line)
 		tokens[position] = token;
 		position++;
 
+		if (tokens[position] == NULL)
+			break;
+
 		if (position >= bufsize)
 		{
 			bufsize += 32;
@@ -48,6 +60,9 @@ char **parse_line(char *line)
 			if (!tokens)
 			{
 				fprintf(stderr, "Realloc error: can't allocate again");
+				for (; position != 0; position--)
+					free(tokens[position]);
+				free(tokens);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -58,7 +73,7 @@ char **parse_line(char *line)
 	return (tokens);
 }
 
-int shell_launch(char **tokens)
+int shell_launch(char **tokens, char **env)
 {
 	pid_t child_pid, wpid;
 	int status;
@@ -67,10 +82,16 @@ int shell_launch(char **tokens)
 
 	if (child_pid == 0)
 	{
-		if (execve(tokens[0], tokens, NULL) == -1)
+		if (tokens[0] == NULL)
+		{
+			free(tokens);
+			exit(EXIT_FAILURE);
+		}
+		if (execve(tokens[0], tokens, env) == -1)
 		{
 			perror("Exec error: can't execute your command");
 		}
+		free(tokens);
 		exit(EXIT_FAILURE);
 	}
 	else if (child_pid < 0)
