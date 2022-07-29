@@ -4,7 +4,7 @@
 char *read_line(void) 
 {
 	char *line = NULL;
-	ssize_t buffsize = 0;
+	size_t buffsize = 0;
 
 	if (getline(&line, &buffsize, stdin) == -1)
 	{
@@ -82,6 +82,7 @@ int shell_launch(char **tokens)
 
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
+	(void)wpid;
 
 	return (1);
 }
