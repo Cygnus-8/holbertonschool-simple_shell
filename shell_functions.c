@@ -50,9 +50,6 @@ char **parse_line(char *line)
 		tokens[position] = token;
 		position++;
 
-		if (tokens[position] == NULL)
-			break;
-
 		if (position >= bufsize)
 		{
 			bufsize += 32;
