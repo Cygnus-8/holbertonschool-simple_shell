@@ -21,7 +21,10 @@ char *read_line(void)
 		}
 	}
 	if (line == NULL)
+	{
+		free(line);
 		return (NULL);
+	}
 
 	return (line); 
 }
@@ -82,7 +85,7 @@ int shell_launch(char **tokens, char **env)
 		if (tokens[0] == NULL)
 		{
 			free(tokens);
-			exit(EXIT_FAILURE);
+			return(2);
 		}
 		if (execve(tokens[0], tokens, env) == -1)
 		{

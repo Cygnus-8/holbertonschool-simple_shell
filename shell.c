@@ -14,7 +14,8 @@ int main(int ac, char **av, char **env)
 		status = shell_launch(args, env);
 
 		free(line);
-		free(args);
+		if (status != 2)
+			free(args);
 	} while	(status);
 
 	return (0);
