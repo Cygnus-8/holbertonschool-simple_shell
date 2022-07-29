@@ -7,7 +7,6 @@ int main(void)
 	int status;
 
 	do {
-		//printf("#cisfun$ ");
 		line = read_line();
 		args = parse_line(line);
 		status = shell_launch(args);
