@@ -1,7 +1,11 @@
 #include "main.h"
 #define delim " \t\r\n\a"
-
-char *read_line(void) 
+/**
+ * read-line - Read user's line
+ * no arg
+ * Return: User's line
+ */
+char *read_line(void)
 {
 	char *line = NULL;
 	size_t buffsize = 0;
@@ -11,9 +15,9 @@ char *read_line(void)
 		if (feof(stdin))
 		{
 			free(line);
-			exit(EXIT_SUCCESS); 
+			exit(EXIT_SUCCESS);
 		}
-		else 
+		else
 		{
 			perror("Can't Read your entry");
 			free(line);
@@ -26,29 +30,33 @@ char *read_line(void)
 		return (NULL);
 	}
 
-	return (line); 
+	return (line);
 }
-
+/**
+ * parse_line - divide line for read
+ * @line: pointer to user's line
+ * Return: token
+ */
 char **parse_line(char *line)
 {
 	int bufsize = 32, position = 0;
 	char **tokens;
-	char *token; 
+	char *token;
 
 	if (line == NULL)
-		return(NULL);
+		return (NULL);
 
 	tokens = malloc(sizeof(char *) * bufsize);
 
-	if(!tokens)
+	if (!tokens)
 	{
 		fprintf(stderr, "Malloc error: can't allocate\n");
-		exit(EXIT_FAILURE); 
+		exit(EXIT_FAILURE);
 	}
 
 	token = strtok(line, delim);
 
-	while(token != NULL)
+	while (token != NULL)
 	{
 		tokens[position] = token;
 		position++;
@@ -72,7 +80,9 @@ char **parse_line(char *line)
 
 	return (tokens);
 }
-
+/**
+ * shell_launch - open shell
+ */
 int shell_launch(char **tokens, char **env)
 {
 	pid_t child_pid, wpid;
@@ -85,7 +95,7 @@ int shell_launch(char **tokens, char **env)
 		if (tokens[0] == NULL)
 		{
 			free(tokens);
-			return(2);
+			return (2);
 		}
 		if (execve(tokens[0], tokens, env) == -1)
 		{
@@ -99,7 +109,7 @@ int shell_launch(char **tokens, char **env)
 	else
 	{
 		do {
-			wpid = waitpid(child_pid, &status, WUNTRACED); 
+			wpid = waitpid(child_pid, &status, WUNTRACED);
 
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
