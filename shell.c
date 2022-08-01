@@ -9,6 +9,7 @@ int main(int ac, char **av, char **env)
 	(void)av;
 
 	do {
+		print_prompt();
 		line = read_line();
 		args = parse_line(line);
 		status = shell_launch(args, env);
