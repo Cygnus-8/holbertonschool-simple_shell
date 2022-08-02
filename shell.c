@@ -1,5 +1,4 @@
 #include "main.h"
-
 int main(int ac, char **av, char **env)
 {
 	char *line;
@@ -8,7 +7,10 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
-	if (!isatty(STDIN_FILENO))
+
+	if (isatty(STDIN_FILENO) == 0)
+	{
+		line = read_line();
 		do{
 			args = parse_line(line);
 			status = shell_launch(args, env);
@@ -17,18 +19,19 @@ int main(int ac, char **av, char **env)
 				free(args);
 			line = read_line();
 		}while (line != NULL);
-	exit(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		do{
+			line = read_line();
+			args = parse_line(line);
+			status = shell_launch(args, env);
 
-	do {
-		line = read_line();
-		args = parse_line(line);
-		status = shell_launch(args, env);
-
-		free(line);
-		if (status != 2)
-			free(args);
-	} while	(status);
-
+			free(line);
+			if (status != 2)
+				free(args);
+		} while	(status);
+	}
 	return (0);
 }
-
