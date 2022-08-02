@@ -8,7 +8,7 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
-	if (!isatty(STDIN_IO_FILE))
+	if (!isatty(STDIN_FILENO))
 		do{
 			args = parse_line(line);
 			status = shell_launch(args, env);
