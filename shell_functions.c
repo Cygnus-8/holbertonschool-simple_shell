@@ -117,8 +117,3 @@ int shell_launch(char **tokens, char **env)
 
 	return (1);
 }
-
-void print_prompt()
-{
-	printf("$ ");
-}

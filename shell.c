@@ -8,8 +8,18 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
+	if (!isatty(stdin))
+		do{
+			args = parse_line(line);
+			status = shell_launch(args, env);
+			free(line);
+			if (status != 2)
+				free(args);
+			line = read_line;
+		}while (line != NULL);
+	exit(EXIT_SUCCESS);
+
 	do {
-		print_prompt();
 		line = read_line();
 		args = parse_line(line);
 		status = shell_launch(args, env);
@@ -21,3 +31,4 @@ int main(int ac, char **av, char **env)
 
 	return (0);
 }
+

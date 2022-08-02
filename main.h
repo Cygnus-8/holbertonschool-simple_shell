@@ -11,6 +11,5 @@
 char *read_line(void);
 char **parse_line(char *line);
 int shell_launch(char **tokens, char **env);
-void print_prompt();
 
 #endif /* MAIN_H */
