@@ -1,1 +1,74 @@
-Simple debut for Man
+.TH hsh "August 2022" "Holberton School"
+.SH NAME
+.B hsh
+\fR \- simple UNIX command interpreter
+.SH SYNOPSIS
+.B hsh
+.R [\fR \fIfilename\fR]\fR or \fR[\fI command\fI and \fI their \fI Options\fR]
+.SH DESCRIPTION
+.B hsh
+\fR is a simple UNIX command language interpreter that reads commands from either a file or standard input and executes them.
+.PP
+.PP
+.B Invocation :
+
+.PP
+.in +2
+\fBhsh\fR can be invoked both interactively and non-interactively.
+If \fBhsh\fR is invoked with standard input not connected to a terminal, it reads and executes received commands in order.
+
+If \fBhsh\fR is invoked with standard input connected to a terminal (as determined by \fIisatty(3)\fR), an \fIinteractive\fR shell is opened.
+When executing interactively, \fBhsh\fR displays the prompt \fI$\fR when it is ready to read a command.
+.PP
+.in +2
+Alternatively, if command line arguments are supplied on the call, \fBhsh\fR treats the first argument as an executable file from which
+to read commands. The file provided must contain one command per line. \fBhsh\fR executes each of the commands in the file in order before terminating.
+
+.PP
+
+.B Environment :
+.PP
+.in +2
+When called, \fBhsh\fR receives and copies the environment of the parent process in which it was executed. This environment is an array
+of strings of type \fIname-value\fR describing variables in the format \fINAME=VALUE\fR.
+.PP
+
+
+.B Command Execution :
+.PP
+.in +2
+After receiving a command, \fBhsh\fR tokenizes it into words using " " and \\n as a delimiter.
+The first word is considered as command and all remaining words are considered as arguments to that command.
+\fBhsh\fR then proceeds with the following actions :
+.PP
+
+.RS
+1. If the first character of the command is neither a slash (\fI\\\fR)\fR nor dot (\fI.\fR),\fR the shell searches for it in the list of shell builtins.
+If there exists a shell builtin by that name, the builtin is invoked.
+.RE
+.PP
+.RS
+2. If the first character of the command is none of a slash (\fI\\\fR),\fR dot (\fI.\fR),\fR nor builtin, \fBhsh\fR searches each element of the
+\fBPATH\fR environmental variable for a directory containing an executable file by that name.
+.RE
+.PP
+.RS
+3. If the first character of the command is a slash (\fI\\\fR)\fR or dot (\fI.\fR)\fR or either of the above searches was successful,
+the shell executes the named program with any remaining arguments given in a separate execution environment.
+.RE
+.PP
+
+.B Signals :
+.PP
+.in +2
+While running in interactive mode, \fBhsh\fR ignores the keyboard input \fBCtrl+c\fR.
+Alternatively, an input of end-of-file (\fBCtrl+d\fR)\fR will exit the program.
+
+
+.SH SEE ALSO
+access(2), chdir(2), execve(2), _exit(2), exit(3), fflush(3), fork(2), free(3), isatty(3), getcwd(3), malloc(3), open(2), read(2), sh(1), signal(2), stat(2), wait(2), write(2)
+
+\fB Shellby\fR emulates basic functionality of the \fBsh\fR Shell.
+This man page borrows from the corresponding man pages \fBsh(1)\fR and \fBdash(1)\fR.
+.SH AUTHOR
+Chris Monfort Muryango, Adel Otmani and Myriam Belkhiri
