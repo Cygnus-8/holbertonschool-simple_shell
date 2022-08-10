@@ -1,8 +1,8 @@
 #include "main.h"
 #define delim " \t\r\n\a"
 /**
- * read-line - Read user's line
- * no arg
+ * read_line - cfr description
+ * Description: Read user's line
  * Return: User's line
  */
 char *read_line(void)
@@ -33,8 +33,9 @@ char *read_line(void)
 	return (line);
 }
 /**
- * parse_line - divide line for read
+ * parse_line - cfr description
  * @line: pointer to user's line
+ * description: divide line for read
  * Return: token
  */
 char **parse_line(char *line)
@@ -81,7 +82,10 @@ char **parse_line(char *line)
 	return (tokens);
 }
 /**
- * shell_launch - open shell
+ * shell_launch - cfr description
+ * @tokens: pointer on char pointer that contains all tokens
+ * @env: environemnt variable pointer
+ * Return: 1 or 2 depends on situation
  */
 int shell_launch(char **tokens, char **env)
 {

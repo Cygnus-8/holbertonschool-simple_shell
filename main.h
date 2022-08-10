@@ -11,5 +11,5 @@
 char *read_line(void);
 char **parse_line(char *line);
 int shell_launch(char **tokens, char **env);
-
+extern char **environ;
 #endif /* MAIN_H */
